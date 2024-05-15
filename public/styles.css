@@ -1,11 +1,11 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: Consolas, monaco, monospace, Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f4f4f4;
 }
 .container {
-  width: 50%;
+  width: 80%;
   margin: 50px auto;
   padding: 20px;
   background-color: #fff;
@@ -25,6 +25,7 @@ label {
   text-align: center;
 }
 textarea {
+  font-family: Consolas, monaco, monospace;
   width: 100%;
   height: 40vh;
   padding: 10px;
