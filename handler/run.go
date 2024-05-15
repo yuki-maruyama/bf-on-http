@@ -1,15 +1,24 @@
 package handler
 
 import (
+	"bytes"
 	"io"
 	"net/http"
+
+	"github.com/yuki-maruyama/brainfxxk/interpreter"
 )
 
 func RunHandler(w http.ResponseWriter, r *http.Request){
 	len := r.ContentLength
-	body := make([]byte, len)
-	r.Body.Read(body)
-	io.WriteString(w, string(body))
+	input := make([]byte, len)
+	output := new(bytes.Buffer)
+	r.Body.Read(input)
+
+	if err := interpreter.Run(string(input), nil, output); err != nil {
+		w.WriteHeader(403)
+		io.WriteString(w, err.Error())
+	}
+	io.WriteString(w, output.String())
 	defer func () {
 		r.Body.Close()
 	}()
