@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BrainFxxk Web Interpreter</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
   <div class="container">
     <h1>BrainFxxk Web Interpreter</h1>
     <label>Script:</label>
     <form id="inputForm">
-      <div class="form-group">
-        <textarea name="script" id="script" required></textarea>
+      <div class="input-form">
+        <textarea name="script" id="scriptForm" required></textarea>
+        <button type="submit">Run</button>
       </div>
-      <button type="submit">Run</button>
     </form>
     <label>Output:</label>
-    <div class="output" id="outputDisplay">
-      ここに出力が表示されます。
-    </div>
+    <div class="output" id="outputDisplay">ここに出力が表示されます。</div>
   </div>
   <script src="script.js"></script>
 </body>
-
 </html>

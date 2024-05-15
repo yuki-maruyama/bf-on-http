@@ -11,21 +11,29 @@ body {
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.form-group {
-  margin-bottom: 15px;
+h1 {
+  text-align: left;
 }
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-weight: bold;
+  text-align: left;
+}
+.input-form {
+  margin-bottom: 15px;
+  text-align: center;
 }
 textarea {
   width: 100%;
+  height: 40vh;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  resize: vertical;
+  resize: none;
+  overflow-y: scroll;
   font-size: 16px;
+  box-sizing: border-box;
 }
 button {
   padding: 10px 20px;
@@ -35,6 +43,7 @@ button {
   font-size: 16px;
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 10px;
 }
 button:hover {
   background-color: #0056b3;
