@@ -10,4 +10,7 @@ func RunHandler(w http.ResponseWriter, r *http.Request){
 	body := make([]byte, len)
 	r.Body.Read(body)
 	io.WriteString(w, string(body))
+	defer func () {
+		r.Body.Close()
+	}()
 }
