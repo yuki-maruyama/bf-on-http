@@ -13,8 +13,7 @@ import (
 var bfTimeout =  util.StringToIntWithDefault(util.GetEnv("BF_TIMEOUT", "10"), 10)
 
 func RunHandler(w http.ResponseWriter, r *http.Request){
-	len := r.ContentLength
-	input := make([]byte, len)
+	var input []byte
 	output := util.NewFixedWriter(1024 * 1024)
 	for {
 		buf := make([]byte, 1024)
@@ -22,9 +21,6 @@ func RunHandler(w http.ResponseWriter, r *http.Request){
 		if err != nil && err != io.EOF {
 			http.Error(w, "Failed to read request body", http.StatusInternalServerError)
 			return
-		}
-		if n == 0 {
-			break
 		}
 		input = append(input, buf[:n]...)
 		if err == io.EOF {
