@@ -1,10 +1,8 @@
 package handler
 
 import (
-	"context"
 	"io"
 	"net/http"
-	"time"
 
 	"github.com/yuki-maruyama/bf-on-http/util"
 	"github.com/yuki-maruyama/brainfxxk/interpreter"
@@ -36,10 +34,7 @@ func RunHandler(w http.ResponseWriter, r *http.Request) {
 		Writer: output,
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(bfTimeout)*time.Second)
-	defer cancel()
-
-	if err := interpreter.Run(ctx, string(input), config); err != nil {
+	if err := interpreter.Run(r.Context(), string(input), config); err != nil {
 		http.Error(w, err.Error(), http.StatusForbidden)
 		return
 	}
