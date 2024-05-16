@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"strconv"
 	"sync"
 	"time"
 
@@ -16,7 +15,7 @@ import (
 	"github.com/yuki-maruyama/bf-on-http/util"
 )
 
-var portNum, _ = strconv.Atoi(util.GetEnv("PORT", "8080"))
+var portNum = util.StringToIntWithDefault(util.GetEnv("PORT", "8080"), 8080)
 
 func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)

@@ -4,14 +4,13 @@ import (
 	"context"
 	"io"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/yuki-maruyama/bf-on-http/util"
 	"github.com/yuki-maruyama/brainfxxk/interpreter"
 )
 
-var bfTimeout, _ =  strconv.Atoi(util.GetEnv("BF_TIMEOUT", "10"))
+var bfTimeout =  util.StringToIntWithDefault(util.GetEnv("BF_TIMEOUT", "10"), 10)
 
 func RunHandler(w http.ResponseWriter, r *http.Request){
 	len := r.ContentLength
