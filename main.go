@@ -7,12 +7,16 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"sync"
 	"time"
 
-	"github.com/yuki-maruyama/bf-on-http/router"
 	"github.com/yuki-maruyama/bf-on-http/config"
+	"github.com/yuki-maruyama/bf-on-http/router"
+	"github.com/yuki-maruyama/bf-on-http/util"
 )
+
+var portNum, _ = strconv.Atoi(util.GetEnv("PORT", "8080"))
 
 func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
@@ -20,7 +24,7 @@ func main() {
 
 	r := router.NewRouter()
 	config := &config.Config{
-		Port: 8080,
+		Port: portNum,
 	}
 	server := &http.Server{
 		Addr: ":"+fmt.Sprint(config.Port),
