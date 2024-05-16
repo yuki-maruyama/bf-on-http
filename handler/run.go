@@ -17,6 +17,7 @@ func RunHandler(w http.ResponseWriter, r *http.Request){
 	if err := interpreter.Run(string(input), nil, output); err != nil {
 		w.WriteHeader(403)
 		io.WriteString(w, err.Error())
+		return
 	}
 	io.WriteString(w, output.String())
 	defer func () {
