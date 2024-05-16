@@ -11,19 +11,15 @@ import (
 	"time"
 
 	"github.com/yuki-maruyama/bf-on-http/router"
+	"github.com/yuki-maruyama/bf-on-http/config"
 )
-
-type Config struct {
-	Port int
-}
 
 func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
 
 	r := router.NewRouter()
-
-	config := &Config{
+	config := &config.Config{
 		Port: 8080,
 	}
 	server := &http.Server{
