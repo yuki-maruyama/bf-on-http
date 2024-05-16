@@ -16,7 +16,21 @@ func RunHandler(w http.ResponseWriter, r *http.Request){
 	len := r.ContentLength
 	input := make([]byte, len)
 	output := util.NewFixedWriter(1024 * 1024)
-	r.Body.Read(input)
+	for {
+		buf := make([]byte, 1024)
+		n, err := r.Body.Read(buf)
+		if err != nil && err != io.EOF {
+			http.Error(w, "Failed to read request body", http.StatusInternalServerError)
+			return
+		}
+		if n == 0 {
+			break
+		}
+		input = append(input, buf[:n]...)
+		if err == io.EOF {
+			break
+		}
+	}
 
 	config := &interpreter.Config {
 		MemorySize: 16384,
@@ -30,8 +44,7 @@ func RunHandler(w http.ResponseWriter, r *http.Request){
 	defer cancel()
 
 	if err := interpreter.Run(ctx, string(input), config); err != nil {
-		w.WriteHeader(403)
-		io.WriteString(w, err.Error())
+		http.Error(w, err.Error(), http.StatusForbidden)
 		return
 	}
 	io.WriteString(w, string(output.Buffer()))
