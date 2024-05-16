@@ -5,31 +5,33 @@ import (
 )
 
 type FixedWriter struct {
-    buf    []byte
-    offset int
+	buf     []byte
+	maxSize int
 }
 
 func NewFixedWriter(size int) *FixedWriter {
-    return &FixedWriter{
-        buf: make([]byte, size),
-    }
+	return &FixedWriter{
+		buf:     make([]byte, 0, size),
+		maxSize: size,
+	}
 }
 
 func (fw *FixedWriter) Write(p []byte) (n int, err error) {
-    if fw.offset >= len(fw.buf) {
-        return 0, errors.New("SizeExceed")
-    }
+	if len(fw.buf)+len(p) > fw.maxSize {
+		return 0, errors.New("SizeExceed")
+	}
 
-    n = copy(fw.buf[fw.offset:], p)
-    fw.offset += n
+	if len(fw.buf)+len(p) <= fw.maxSize {
+		n = len(p)
+	} else {
+		n = fw.maxSize - len(fw.buf)
+	}
 
-    if fw.offset >= len(fw.buf) {
-        err = errors.New("SizeExceed")
-    }
+	fw.buf = append(fw.buf, p[:n]...)
 
-    return n, err
+	return n, nil
 }
 
 func (fw *FixedWriter) Buffer() []byte {
-    return fw.buf
+	return fw.buf
 }
