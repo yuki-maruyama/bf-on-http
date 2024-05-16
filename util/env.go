@@ -8,7 +8,7 @@ import (
 func GetEnv(key, fallback string) string {
 	value, exists := os.LookupEnv(key)
 	if !exists {
-			value = fallback
+		value = fallback
 	}
 	return value
 }
@@ -16,7 +16,7 @@ func GetEnv(key, fallback string) string {
 func StringToIntWithDefault(str string, defaultValue int) int {
 	value, err := strconv.Atoi(str)
 	if err != nil {
-			return defaultValue
+		return defaultValue
 	}
 	return value
 }

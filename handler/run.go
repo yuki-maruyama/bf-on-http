@@ -10,9 +10,9 @@ import (
 	"github.com/yuki-maruyama/brainfxxk/interpreter"
 )
 
-var bfTimeout =  util.StringToIntWithDefault(util.GetEnv("BF_TIMEOUT", "10"), 10)
+var bfTimeout = util.StringToIntWithDefault(util.GetEnv("BF_TIMEOUT", "10"), 10)
 
-func RunHandler(w http.ResponseWriter, r *http.Request){
+func RunHandler(w http.ResponseWriter, r *http.Request) {
 	var input []byte
 	output := util.NewFixedWriter(1024 * 1024)
 	for {
@@ -28,15 +28,15 @@ func RunHandler(w http.ResponseWriter, r *http.Request){
 		}
 	}
 
-	config := &interpreter.Config {
+	config := &interpreter.Config{
 		MemorySize: 16384,
-		MaxStep: 100000000000,
+		MaxStep:    100000000000,
 
 		Reader: nil,
 		Writer: output,
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(bfTimeout) * time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(bfTimeout)*time.Second)
 	defer cancel()
 
 	if err := interpreter.Run(ctx, string(input), config); err != nil {
@@ -44,7 +44,7 @@ func RunHandler(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	io.WriteString(w, string(output.Buffer()))
-	defer func () {
+	defer func() {
 		r.Body.Close()
 	}()
 }

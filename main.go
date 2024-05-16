@@ -26,15 +26,15 @@ func main() {
 		Port: portNum,
 	}
 	server := &http.Server{
-		Addr: ":"+fmt.Sprint(config.Port),
+		Addr:    ":" + fmt.Sprint(config.Port),
 		Handler: r,
 	}
 
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
-	go func ()  {
+	go func() {
 		defer wg.Done()
-		<- ctx.Done()
+		<-ctx.Done()
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 		server.Shutdown(ctx)
