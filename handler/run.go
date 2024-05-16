@@ -8,8 +8,6 @@ import (
 	"github.com/yuki-maruyama/brainfxxk/interpreter"
 )
 
-var bfTimeout = util.StringToIntWithDefault(util.GetEnv("BF_TIMEOUT", "10"), 10)
-
 func RunHandler(w http.ResponseWriter, r *http.Request) {
 	var input []byte
 	output := util.NewFixedWriter(1024 * 1024)
@@ -38,6 +36,7 @@ func RunHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusForbidden)
 		return
 	}
+	w.Header().Set("Content-Type", "text/plain;charset=UTF-8")
 	io.WriteString(w, string(output.Buffer()))
 	defer func() {
 		r.Body.Close()
