@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"sync"
+	"time"
 
 	"github.com/yuki-maruyama/bf-on-http/router"
 )
@@ -29,10 +31,16 @@ func main() {
 		Handler: r,
 	}
 
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
 	go func ()  {
+		defer wg.Done()
 		<- ctx.Done()
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
 		server.Shutdown(ctx)
 	}()
 	log.Printf("server start running at :%d", config.Port)
 	log.Fatal(server.ListenAndServe())
+	wg.Wait()
 }
